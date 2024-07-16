@@ -7,6 +7,16 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   return (
@@ -27,8 +37,9 @@ const items = [
 
 const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
   return (
-    <div className="block border-separate bg-background md:hidden">
+    <div className="fixed border-separate bg-background md:hidden w-full shadow-sm top-0 z-50 transition-all duration-300 data-[scrolled=true]:bg-background data-[scrolled=true]:shadow-lg">
       <nav className="container flex items-center justify-between px-8">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
@@ -73,8 +84,66 @@ const MobileNavbar = () => {
           />
         </Link>
         <div className="flex items-center gap-2">
-          <Button variant="outline">Login</Button>
-          <Button>Back to RikeSD</Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="cursor-pointer">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt={user.email}
+                  />
+                  <AvatarFallback>{user.email[0].toUpperCase()}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href="/profile" prefetch={false}>
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                {user.role === "explorer" && (
+                  <>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Order
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Payment
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {user.role === "researcher" && (
+                  <>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Publish
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Research Ideas
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button variant="outline">
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button>
+                <Link href="/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </nav>
     </div>
@@ -82,8 +151,9 @@ const MobileNavbar = () => {
 };
 
 const DesktopNavbar = () => {
+  const { user, logout } = useAuth();
   return (
-    <div className="hidden border-separate border-b bg-background md:block">
+    <div className="hidden border-separate border-b bg-background md:block fixed w-full shadow-sm top-0 z-50 transition-all duration-300 data-[scrolled=true]:bg-background data-[scrolled=true]:shadow-lg">
       <nav className="container flex items-center justify-between px-8">
         <div className="flex h-[70px] min-h-[60px] items-center gap-x-4">
           <Link href="/">
@@ -108,8 +178,66 @@ const DesktopNavbar = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline">Login</Button>
-          <Button>Back to RikeSD</Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="cursor-pointer">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt={user.email}
+                  />
+                  <AvatarFallback>{user.email[0].toUpperCase()}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href="/profile" prefetch={false}>
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                {user.role === "explorer" && (
+                  <>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Order
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Payment
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {user.role === "researcher" && (
+                  <>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Publish
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/order" prefetch={false}>
+                        Research Ideas
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button variant="outline">
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button>
+                <Link href="/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </nav>
     </div>
@@ -141,4 +269,5 @@ const NavbarItem = ({ link, label, onClick }) => {
     </div>
   );
 };
+
 export default Header;

@@ -1,6 +1,9 @@
 import "./globals.css";
 import { Open_Sans } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "@/context/AuthContext";
+import Footer from "@/components/Footer";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -15,9 +18,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={openSans.className}>
-        <Navbar /> {children}
-      </body>
+      <AuthProvider>
+        <body className={openSans.className}>
+          <Toaster />
+          <Navbar /> {children}
+          <Footer />
+        </body>
+      </AuthProvider>
     </html>
   );
 }
