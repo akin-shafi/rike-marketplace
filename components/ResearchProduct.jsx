@@ -59,8 +59,7 @@ export default function ResearchProduct() {
   }, [selectedCategory, products]);
 
   // Show only a subset of products initially
-  const visibleProducts = filteredProducts.slice(0, 6); // Show the first 6 products
-
+  const visibleProducts = filteredProducts.slice(0, 4); // Show the first 4 products
 
   return (
     <section className="py-12 md:py-16 lg:py-20">
@@ -95,28 +94,38 @@ export default function ResearchProduct() {
               ))}
             </RadioGroup>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {visibleProducts.map((product) => (
-              <Card key={product.id} className="h-full">
+              <div
+                key={product.id}
+                className="bg-background rounded-lg shadow-lg overflow-hidden"
+              >
                 <img
                   src={product.image}
                   alt={product.title}
-                  width={300}
+                  width={400}
                   height={300}
-                  className="aspect-square w-full rounded-t-lg object-cover"
+                  className="w-full h-48 object-cover"
                 />
-                <CardContent className="space-y-2 p-4">
-                  <h3 className="text-lg font-semibold">{product.title}</h3>
-                  <p className="text-primary">${product.price}</p>
-                </CardContent>
-              </Card>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold">{product.title}</h3>
+                  <p className="text-muted-foreground text-sm mt-1">
+                    {product.description}
+                  </p>
+                  <div className="flex items-center justify-between mt-4">
+                    <span className="text-primary font-bold">
+                      ${product.price}
+                    </span>
+                    <Button size="sm">Add to Cart</Button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
         <div className="mt-8 flex justify-center">
           <Button size="lg">
-            {" "}
-            <Link href="/research-product">View More</Link>{" "}
+            <Link href="/research-product">View More</Link>
           </Button>
         </div>
       </div>
