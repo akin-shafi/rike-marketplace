@@ -15,9 +15,10 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
+import ProtectedRoute from "@/utils/ProtectedRoute";
 
-export default function Page() {
-  const { user, logout } = useAuth();
+function Page() {
+    const { user, logout } = useAuth();
 
   return (
     <div className="w-full max-w-7xl mx-auto py-12 mt-12 px-4 sm:px-6 lg:px-8">
@@ -71,7 +72,7 @@ export default function Page() {
           )}
           {user?.role === "researcher" && (
             <>
-              <Link href="#">
+              <Link href="/manage-products">
                 <Card className="flex flex-col items-center text-center p-6 space-y-3 cursor-pointer">
                   <div className="bg-muted rounded-full p-3">
                     <ShoppingCartIcon className="h-6 w-6" />
@@ -155,3 +156,5 @@ export default function Page() {
     </div>
   );
 }
+
+export default ProtectedRoute(Page);
