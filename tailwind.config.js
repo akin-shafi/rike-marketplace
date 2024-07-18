@@ -73,6 +73,7 @@ module.exports = {
       },
       backgroundImage: {
         "section-bg": "url('/sectionbg1.png')",
+        "breadcrumb-bg": "url('/hero-bg.png')",
       }
     },
   },

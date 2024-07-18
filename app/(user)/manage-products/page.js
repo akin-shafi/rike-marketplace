@@ -10,6 +10,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { UploadIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function Component() {
   const categories = [
@@ -92,10 +93,12 @@ export default function Component() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button size="lg">
-                <UploadIcon className="mr-2 h-5 w-5" />
-                Upload Product
-              </Button>
+              <Link href="/upload-product">
+                <Button size="lg">
+                  <UploadIcon className="mr-2 h-5 w-5" />
+                  Upload Product
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
